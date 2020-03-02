@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIS platform - Discussion</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'style/login.css' %}">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        function preventBack() {
+            window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+</head> 
+
+<body>  
+    <!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#profile">Text</button>
+     -->
+    <div class="row" style="background-color:#f9f9f9; padding:0px; width:100%">
+
+        <div id="dprofile" class="col-sm-3 p-4 text-center float-left my-auto mydprofile" style="background-color:#eeeeee; min-width:0px; border-right:0px solid #eeeeee; min-height: 100vh; height:auto; max-width:300px;">
+            <img style="width: 210px; height:210px; margin:25px 0px 0px 0px" src="{% static 'img/userIcon.png' %}" alt="" class="img-fluid rounded-circle">
+            <h3 class="display-5 my-4">{{user.first_name}}</h3>
+
+            <button data-toggle="collapse" data-target="#demo" class="btn btn-info btn-block my-3 mybutton dropdown-toggle">Account Info  </button>
+            <div  id="demo" class="text-left collapse">
+                <h6>{{user.first_name}}</h6>
+                <hr>
+                <h6>{{user.email}}</h6>
+                <hr>
+                <h6>{{user.username}}</h6>
+                <hr>
+            </div>
+
+            <button data-toggle="collapse" data-target="#demo2" class="btn btn-info btn-block my-3 mybutton dropdown-toggle">Skills Completed  </button>
+
+            <div  id="demo2" class="text-left collapse my-3">
+
+            </div>
+
+             <form action="{% url 'all_members' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-block my-3 mybutton">All Members</button>
+            </form>
+
+
+            <form action="{% url 'tasks' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-block my-3 mybutton">All Tasks</button>
+            </form>
+
+            <form action="{% url 'chat' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-block my-3 mybutton">Discussion</button>
+            </form>
+
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-block my-3 mybutton">Logout</button>
+            </form>
+
+        
+        </div>
+
+        <div style="margin-right: -10px;" class="col-sm-6 mx-2 float-left">
+            <div class="card mx-2" style="margin-top: 25px; max-width:600px;">
+                <div class="card-header py-3" style="background-color:white; height: 60px;">
+                    <h1 class="display-4" style="font-size: 17pt; margin-bottom:0px;">Discussion</h1>
+                </div>
+
+                <div class="card-body" style="padding-top:0px; margin-bottom:0px" >
+                        <img id="alert" onclick="yes()" style="display:none; cursor:pointer; transition-duration:1s; width: 80px; margin-top:115%;" class="float-right img-fluid" src="{% static 'img/msg2.png' %}" alt="">
+
+                    <div id="downScroll" class="cardList" style="margin-top:10px; min-height:75vh; max-height:75vh; overflow:auto;">
+
+                        <div id="mycontent" class="float-left" style="width:fit-content">
+
+                        {% for my_msg in msgs %}
+                        <div id="msgDiv" class="card my-3 message">
+        
+                            <div class="card-header" style="background-color:#eeeeee; padding: 5px 10px;">
+                                <h1 class="display-1 my-1 float-left"  style="font-size: 11pt;"><b>{{my_msg.sent_by}}</b></h1>
+                            </div>
+
+                            <div class="card-body" style="padding: 10px;">
+                
+                                <div class="container-fluid float-left" style="padding:0px;">
+                                    <h1 class="display-4 float-left" style="font-size: 13pt; margin-bottom:0px;  line-height:27px;">{{my_msg.msg}}</h1>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+        
+                    </div>
+
+        
+                    </div>
+                </div>
+
+                <div class="card-footer py-3" style="background-color:#ffffff; height: auto;">
+                    <div class="row d-flex justify-content-center">
+
+                            <div class="col-sm-10">
+                                <form action="chatting" method="post" autocomplete="off">
+                                {% csrf_token %}
+                                <input style="width:100%;" type="text" class="form-control p-2" placeholder="Type a message..." name="userMsg" id="userMs" required>
+                                </div>
+
+                                <div class="col-sm-2" style="padding: 0px;">
+                                <button style="width:80px;" class="btn btn-info mx-3 float-right" onclick="godown()" >Send</button>
+                                </form>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-3 float-left" style="background-color: none; margin:0px -10px;">
+            <div class="card" style="margin-top: 25px; max-width:600px;">
+                <div class="card-body">
+                    <h1 class="display-4" style="font-size: 17pt; margin-bottom:0px;">Notifications</h1>
+                </div>
+            </div>
+
+            <div class="cardList" style="margin-top:-10px; margin-bottom:-20px; max-height:90vh; overflow:auto;">
+              
+                {% for noty in notify %}
+
+                <div class="card my-5" style="max-width: 600px">
+                    <div class="card-header">
+                        <p style="margin: 0px; float:left">{{noty.subject}}</p>
+                        <p style="float: right; margin:0">
+                            <span class="badge badge-primary badge-info p-2">Uploaded {{noty.date}}</span>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <p style="margin: 0px;">{{noty.desc}}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+
+
+
+<script src="{% static 'js/starting.js' %}"></script>
+<script>
+        function yes(){
+
+            var x = document.getElementById("mycontent");
+            x.scrollIntoView(false)
+            document.getElementById("alert").style.display = 'none';
+        }
+     var st = $('#mycontent').children().length;
+
+     setInterval(function(){
+
+        $('#mycontent').load(location.href+' #msgDiv');
+
+        var a_len = $('#mycontent').children().length;
+
+        if(st != a_len){
+            st = a_len;
+            document.getElementById("alert").style.display = 'block';
+            temp()
+        }
+
+    },500)
+
+    function temp(){
+        setTimeout(function(){
+             document.getElementById("alert").style.display = 'none';
+
+        }, 6000)
+    }
+
+
+
+
+
+
+
+    var mySkillsList = document.getElementById("demo2");
+    var listOfSkills = "{{skill}}";
+    if(listOfSkills == 'None'){
+        var myskill = document.createElement("h6")
+        var text = document.createTextNode("None");
+        myskill.appendChild(text);
+        mySkillsList.appendChild(myskill);
+        mySkillsList.appendChild(document.createElement("hr"));
+    }else{
+        listOfSkills = listOfSkills.split("-");
+        for(let i=0; i<listOfSkills.length; i++){
+            var myskill = document.createElement("h6")
+            var text = document.createTextNode(listOfSkills[i]);
+            myskill.appendChild(text);
+            mySkillsList.appendChild(myskill);
+            mySkillsList.appendChild(document.createElement("hr"));
+        }
+    }
+</script>
+</html>

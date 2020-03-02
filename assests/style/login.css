@@ -1,0 +1,51 @@
+.mybutton{
+    height: 40px;
+    color: white;
+}
+
+hr{
+    background-color: white;
+    width: 100%;
+}
+
+
+.field{
+    height: 50px;
+    margin: 15px 0px;
+    font-size: 11pt;
+    padding: 8px 15px;
+    border: 1px solid grey;
+    border-radius: 4px;
+}
+
+.main111{
+    padding: 40px;
+    margin-left: 70px;
+    border-radius: 5px;
+    border: solid 1px grey;
+    width: 370px;
+    transition-duration: 0.5s;
+}
+
+.cardList::-webkit-scrollbar {
+    display: none;
+}
+
+
+#profile{
+    transition-duration: 0.5s;
+}
+
+@media screen and (max-width: 400px) {
+    .topnav a:not(:first-child) {display: none;}
+    .topnav a.icon {
+      float: right;
+      display: block;
+    }
+  }
+
+.message{
+    width:fit-content; 
+    max-width:410px;
+}
+

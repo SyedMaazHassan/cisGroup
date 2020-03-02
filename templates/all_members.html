@@ -1,0 +1,193 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIS platform - Members</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'style/login.css' %}">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>  
+    <!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#profile">Text</button>
+     -->
+    <div class="row" style="background-color:#f9f9f9; padding:0px; width:100%">
+
+        <div id="dprofile" class="col-sm-3 p-4 text-center float-left my-auto mydprofile" style="background-color:#eeeeee; min-width:0px; border-right:0px solid #eeeeee; min-height: 100vh; height:auto; max-width:300px;">
+            <img style="width: 210px; height:210px; margin:25px 0px 0px 0px" src="{% static 'img/userIcon.png' %}" alt="" class="img-fluid rounded-circle">
+            <h3 class="display-5 my-4">{{user.first_name}}</h3>
+
+            <button data-toggle="collapse" data-target="#demo" class="btn btn-info btn-block my-3 mybutton dropdown-toggle">Account Info  </button>
+            <div  id="demo" class="text-left collapse">
+                <h6>{{user.first_name}}</h6>
+                <hr>
+                <h6>{{user.email}}</h6>
+                <hr>
+                <h6>{{user.username}}</h6>
+                <hr>
+            </div>
+
+            <button data-toggle="collapse" data-target="#demo2" class="btn btn-info btn-block my-3 mybutton dropdown-toggle">Skills Completed  </button>
+            
+            <div  id="demo2" class="text-left collapse my-3">
+
+            </div>
+
+             <form action="{% url 'all_members' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-block my-3 mybutton">All Members</button>
+            </form>
+
+
+            <form action="{% url 'tasks' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-block my-3 mybutton">All Tasks</button>
+            </form>
+
+            <form action="{% url 'chat' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-block my-3 mybutton">Discussion</button>
+            </form>
+
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-block my-3 mybutton">Logout</button>
+            </form>
+
+        
+        </div>
+
+        <div style="margin-right: -10px;" class="col-sm-6 mx-2 float-left">
+            <div class="card mx-2" style="margin-top: 25px; max-width:600px; margin-bottom:0px;">
+                <div class="card-body">
+                    <h1 class="display-4" style="font-size: 17pt; margin-bottom:0px;">All Members</h1>
+                </div>
+            </div>
+
+            <div class="cardList mx-2" style="margin-top:0px; max-height:89vh; overflow:auto;">
+                <div class="alert alert-success alert-dismissible rounded fade show" style="max-width:600px;">
+                    <button type="button" class="close" data-dismiss="alert">&times</button>
+                    This <i><b>Progress</b></i> shows the number of tasks that a members completes.
+                </div>
+
+                {% for member in all_members %}
+                <div class="card my-4" style="max-width: 600px">
+
+                    <div class="card-body">
+                        <img style="width: 90px; height:90px; border:1px solid grey" class="my-2 float-left img-fluid rounded-circle" src="{% static 'img/profile_icon.png' %}" alt="">
+                        <div>
+                            <h1 class="display-1 mx-3 my-2 float-left"  style="font-size: 25pt;">{{member.name}}</h1>
+                            {% if member.isOnline == 'True' %}
+                            <span class="badge bg-success badge-primary my-3 float-left">online</span>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <div style="background-color:black">
+                            <h1 class="display-1 mx-3 my-1 float-left"  style="font-size: 14pt;">
+                                {{member.email}}<span style="font-size:10px; margin:0px 15px; color:#010101">&#9679;</span>{{member.rollNo}}
+                            </h1>
+                        </div>
+        
+                        <div class="container-fluid my-2 float-left" style="padding:0px;">
+                            <h1 class="display-4 float-left my-2" style="font-size: 17pt; margin-bottom:0px;">Progress</h1>
+                            <div class="progress float-left my-2" style="width:100%;">
+                                <div class="progress-bar bg-info progress-bar-striped progress-bar-animated bg-primary" style="width: {{member.progress}}%" role="progressbar"></div>
+                            </div>
+                        </div>
+
+                        <div id="skills{{forloop.counter}}" class="collapse container-fluid my-2 float-left" style="padding:0px;">
+                            <h1 class="display-4 float-left my-2" style="font-size: 17pt; margin-bottom:0px;">
+                                {{member.skills}}
+                            </h1> 
+                        </div>
+
+
+                        <div class="container-fluid my-2 float-left" style="padding:0px;">
+                            <button data-target="#skills{{forloop.counter}}" data-toggle="collapse" style="height:30px; padding:0px 8px;" class="btn btn-info">Skills &#9662;</button>
+                        </div>
+
+
+                    </div>
+                  
+                </div>
+                {% endfor %}
+               
+
+            </div>
+        </div>
+
+        <div class="col-sm-3 float-left" style="background-color: none; margin:0px -10px;">
+            <div class="card" style="margin-top: 25px; max-width:600px;">
+                <div class="card-body">
+                    <h1 class="display-4" style="font-size: 17pt; margin-bottom:0px;">Notifications</h1>
+                </div>
+            </div>
+
+            <div class="cardList" style="margin-top:-10px; margin-bottom:-20px; max-height:90vh; overflow:auto;">
+              
+
+                {% for noty in notify %}
+                <div class="card my-5" style="max-width: 600px">
+                    <div class="card-header">
+                        <p style="margin: 0px; float:left">{{noty.subject}}</p>
+                        <p style="float: right; margin:0">
+                            <span class="badge badge-primary badge-info p-2">Uploaded {{noty.date}}</span>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <p style="margin: 0px;">{{noty.desc}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+
+
+
+<script src="{% static 'js/starting.js' %}"></script>
+<script>
+
+    var mySkillsList = document.getElementById("demo2");
+    var listOfSkills = "{{skill}}";
+    if(listOfSkills == 'None'){
+        var myskill = document.createElement("h6")
+        var text = document.createTextNode("None");
+        myskill.appendChild(text);
+        mySkillsList.appendChild(myskill);
+        mySkillsList.appendChild(document.createElement("hr"));
+    }else{
+        listOfSkills = listOfSkills.split("-");
+        for(let i=0; i<listOfSkills.length; i++){
+            var myskill = document.createElement("h6")
+            var text = document.createTextNode(listOfSkills[i]);
+            myskill.appendChild(text);
+            mySkillsList.appendChild(myskill);
+            mySkillsList.appendChild(document.createElement("hr"));
+        }
+    }
+</script>
+</html>

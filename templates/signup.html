@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'style/login.css' %}">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        function preventBack() {
+            window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+</head>
+
+<body>
+    <div class="d-flex justify-content-center" style="margin:0px; height: 100vh;">
+        <div class="continer justify-content-center">
+            <div class="float-left h-100 d-flex justify-content-center align-items-center right float-left h-200 justify-content-center">
+                <div style="margin-left: 0px;" class="left float-left">
+                    <h1 class="display-2">Join our team</h1>
+                    <h1 class="display-4 my-4">to learn tech. & work</h1>
+                    <h1 class="display-4 my-4">on mega projects</h1>
+                    <img style="width: 500px; margin:30px auto;" src="{% static 'img/mybg.png' %}" alt="background" class="img-  ">
+                    <p>Platform developed by SYED MAAZ HASSAN</p>
+                </div>
+            </div>
+
+            <div style="margin-left: 0px;" class="float-right h-100 d-flex justify-content-center align-items-center row text-center h-200 justify-content-center">
+                <div class="container main111" id="login">
+                    <form action="{% url 'register' %}" method="post" autocomplete="off">
+                        {% csrf_token %}
+                        <img style="width: 90px; margin:auto" src="{% static 'img/login_icon.png' %}" alt="login" class="img my-3">
+                        <p style="font-size: 15pt;" class="font-weight-normal my-1">REGISTER HERE!</p>
+                        <input class="field form-control" id="name" name="name" type="text" placeholder="Full Name" required>
+                        <input class="field form-control" id="email" name="email" type="email" placeholder="Email Address" required>
+                        <input class="field form-control" id="pass1" name="pass1" type="password" placeholder="Password" required>
+                        <input class="field form-control" id="pass2" name="pass2" type="password" placeholder="Confirm Password" required>
+                        <!--<input class="field form-control" id="pmi" name="pass1" type="text" placeholder="Project Member ID." required>-->
+                        <input class="field form-control" id="rollNo" name="rollNo" type="text" placeholder="CIS Roll no." required>
+                        <p class="font-weight-normal">Kindly write your authentic details</p>
+                        <button type="submit" class="btn btn-info btn-block my-2 font-weight-norml button" style="background-color:#248fa8; height:40px">SIGNUP</button>
+                        <p class="font-weight-normal my-3">
+                            Already Registered? <a href="{% url 'login' %}" style="text-decoration: none; color:#248fa8">LOGIN here</a>
+                        </p>
+                    </form>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- The Modal -->
+   <!-- The Modal -->
+    {% for msg in messages %}
+    <div id="myModal" class="modal">
+      <div class="modal-content p-4 justify-content-center align-items-center">
+            <h1 id="h_msg" class="display-1 float-left" style="line-height:35px; font-size:17pt;">
+            {{msg}}
+            </h1>
+            <input style="display: none;" type="number" min="0" max="36" class="booking" name="" id="day" placeholder="Hour" required>
+            <button onclick="hideMODAL()" class="btn btn-info float-right" style="margin-top: 15px; width:150px">OK</button>
+            <input style="display: none;" type="number" min="0" max="36" class="booking" name="" id="month" placeholder="Min" required>
+      </div>
+
+    </div>
+    {% endfor %}
+</body>
+
+
+
+<script>
+
+    function preventBack() {
+            window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+
+    var modal = document.getElementById("myModal");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+
+    function showMODAL(){
+        modal.style.display = "block";
+    }
+
+    var h = document.getElementById("h_msg");
+    var h_l = h.innerHTML.toString();
+    if (h_l.length > 0){
+        showMODAL()
+    }
+
+
+    function hideMODAL(){
+      modal.style.display = 'none';
+    }
+
+</script>
+
+</html>
